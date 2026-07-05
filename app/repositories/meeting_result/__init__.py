@@ -1,0 +1,4 @@
+from app.repositories.meeting_result.create_meeting_result import create_meeting_result_repo
+from app.repositories.meeting_result.get_meeting_result_by_id import get_meeting_result_repo
+from app.repositories.meeting_result.get_meeting_result_by_meeting import get_meeting_result_by_meeting_repo
+from app.repositories.meeting_result.update_meeting_result import update_meeting_result_repo

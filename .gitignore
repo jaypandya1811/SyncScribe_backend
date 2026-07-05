@@ -1,0 +1,6 @@
+.env
+environment/
+alembic
+alembic.ini
+__pycache__/
+*.py[cod]
