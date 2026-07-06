@@ -1,47 +1,72 @@
-class AudioFileUploadError(Exception):
+from .app_exception import AppError
 
-    def __init__(self):
+class AudioFileUploadError(AppError):
+    status_code = 502
+    error_code = "audio_file_upload_error"
 
-        super().__init__("Failed to upload audio file to aws.")
+    @property
+    def default_message(self) -> str:
+        return "Failed to upload audio file to aws."
 
-class InvalidAudioFileExtensionError(Exception):
 
-    def __init__(self):
+class InvalidAudioFileExtensionError(AppError):
+    status_code = 400
+    error_code = "invalid_audio_file_extension"
 
-        super().__init__("Invalid file type.")
+    @property
+    def default_message(self) -> str:
+        return "Invalid file type."
 
-class EmptyFileError(Exception):
 
-    def __init__(self):
+class EmptyFileError(AppError):
+    status_code = 400
+    error_code = "empty_file"
 
-        super().__init__("Uploaded file is empty.")
+    @property
+    def default_message(self) -> str:
+        return "Uploaded file is empty."
 
-class FileSizeError(Exception):
 
-    def __init__(self):
+class FileSizeError(AppError):
+    status_code = 413
+    error_code = "file_size_exceeded"
 
-        super().__init__("Uploaded file size exceeds limit of 100 mb.")
+    @property
+    def default_message(self) -> str:
+        return "Uploaded file size exceeds limit of 100 mb."
 
-class InvalidFileTypeError(Exception):
 
-    def __init__(self):
+class InvalidFileTypeError(AppError):
+    status_code = 400
+    error_code = "invalid_file_type"
 
-        super().__init__("Invalid mime type.")
+    @property
+    def default_message(self) -> str:
+        return "Invalid mime type."
 
-class InvalidFileError(Exception):
 
-    def __init__(self):
+class InvalidFileError(AppError):
+    status_code = 400
+    error_code = "invalid_file"
 
-        super().__init__("Invalid file.")
+    @property
+    def default_message(self) -> str:
+        return "Invalid file."
 
-class AudioDurationError(Exception):
 
-    def __init__(self):
+class AudioDurationError(AppError):
+    status_code = 400
+    error_code = "audio_duration_error"
 
-        super().__init__("Uploaded audio file is too short to upload minimum 1 minute duration is required.")
+    @property
+    def default_message(self) -> str:
+        return "Uploaded audio file is too short to upload minimum 1 minute duration is required."
 
-class AudioConverstionError(Exception):
 
-    def __init__(self):
+class AudioConverstionError(AppError):
+    status_code = 500
+    error_code = "audio_conversion_error"
 
-        super().__init__("Failed to convert video to audio.")
+    @property
+    def default_message(self) -> str:
+        return "Failed to convert video to audio."
