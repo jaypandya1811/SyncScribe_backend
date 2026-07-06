@@ -1,17 +1,25 @@
-class UserAlreadyExistsError(Exception):
+from .app_exception import AppError
 
-    def __init__(self):
+class UserAlreadyExistsError(AppError):
+    status_code = 409
+    error_code = "user_already_exists"
 
-        super().__init__("This email is already registered.")
+    @property
+    def default_message(self) -> str:
+        return "This email is already registered."
 
-class UserNotFoundError(Exception):
+class UserNotFoundError(AppError):
+    status_code = 404
+    error_code = "user_not_found"
 
-    def __init__(self):
-
-        super().__init__("User not found.")
+    @property
+    def default_message(self) -> str:
+        return "User not found."
         
-class InvalidCredentialsError(Exception):
+class InvalidCredentialsError(AppError):
+    status_code = 401
+    error_code = "invalid_credentials"
 
-    def __init__(self):
-
-        super().__init__("Incorrect email or password.")
+    @property
+    def default_message(self) -> str:
+        return "Incorrect email or password."

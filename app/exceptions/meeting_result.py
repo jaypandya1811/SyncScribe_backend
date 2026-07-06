@@ -1,11 +1,18 @@
-class MeetingResultNotFound(Exception):
+from .app_exception import AppError
 
-    def __init__(self):
+class MeetingResultNotFound(AppError):
+    status_code = 404
+    error_code = "meeting_result_not_found"
 
-        super().__init__("No meeting results found.")
+    @property
+    def default_message(self) -> str:
+        return "No meeting results found."
 
-class MeetingResultUpdateError(Exception):
 
-    def __init__(self):
+class MeetingResultUpdateError(AppError):
+    status_code = 400
+    error_code = "meeting_result_update_error"
 
-        super().__init__("Unable to update meeting result.")
+    @property
+    def default_message(self) -> str:
+        return "Unable to update meeting result."

@@ -1,6 +1,8 @@
 .env
 environment/
-alembic
+alembic/*
+!alembic/versions/
+!alembic/versions/**
 alembic.ini
 __pycache__/
 *.py[cod]

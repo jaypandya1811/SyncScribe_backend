@@ -1,11 +1,18 @@
-class MeetingNotFound(Exception):
+from .app_exception import AppError
 
-    def __init__(self):
+class MeetingNotFound(AppError):
+    status_code = 404
+    error_code = "meeting_not_found"
 
-        super().__init__("No meetings found.")
+    @property
+    def default_message(self) -> str:
+        return "No meetings found."
 
-class MeetingUpdateError(Exception):
 
-    def __init__(self):
+class MeetingUpdateError(AppError):
+    status_code = 400
+    error_code = "meeting_update_error"
 
-        super().__init__("Unable to update meeting.")
+    @property
+    def default_message(self) -> str:
+        return "Unable to update meeting."

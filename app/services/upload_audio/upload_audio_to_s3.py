@@ -22,7 +22,7 @@ VIDEO_EXTENSIONS = {"mp4", "mov", "avi", "mkv"}
 def get_content_type(file_extension: str) -> str:
     return CONTENT_TYPE_MAP.get(file_extension, "application/octet-stream")
 
-def upload_audio_to_s3(file: UploadFile, user_id: int) -> str:
+def upload_audio_to_s3(file: UploadFile, user_id: int, meeting_id: int) -> str:
     file_name = cast(str, file.filename)
     file_extension = file_name.rsplit(".")[-1].lower()
     try:
@@ -36,7 +36,7 @@ def upload_audio_to_s3(file: UploadFile, user_id: int) -> str:
 
         validate_file(file_name, file_bytes, file_extension)
 
-        unique_filename = f"audio/{user_id}/{uuid.uuid4()}.{file_extension}"
+        unique_filename = f"audio/{user_id}/{meeting_id}/{uuid.uuid4()}.{file_extension}"
 
         content_type = get_content_type(file_extension)
 
