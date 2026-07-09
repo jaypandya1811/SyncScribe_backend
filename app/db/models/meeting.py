@@ -16,5 +16,4 @@ class Meeting(Base):
     updated_at = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
 
     user = relationship("User", back_populates="meetings")
-    results = relationship("MeetingResult", back_populates="meeting", uselist=False, cascade="all, delete-orphan")
     audio_files = relationship("MeetingAudioFile", backref="meeting", cascade="all, delete-orphan")
