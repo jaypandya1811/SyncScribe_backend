@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status, File, UploadFile, Form
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.schema.meeting_audio_file import MeetingAudioFileCreate, MeetingAudioFileResponse
-from app.services.meeting_audio_file import create_meeting_audio_file_service, get_meeting_audio_file_by_user_service, get_meeting_audio_file_by_meeting_service, get_meeting_audio_file_by_meeting_and_user_service
+from app.services.meeting_audio_file import create_meeting_audio_file_service, get_meeting_audio_file_by_user_service, get_meeting_audio_file_by_meeting_service, get_meeting_audio_file_by_meeting_and_user_service, get_meeting_audio_file_service
 
 router = APIRouter(
     prefix="/uploads",
@@ -21,6 +21,10 @@ def create_meeting_audio_file(
     file: UploadFile = File(...),
     db: Session = Depends(get_db)):
     return create_meeting_audio_file_service(user_id=user_id, meeting_id=meeting_id, file=file, db=db)
+
+@router.get("/{audio_file_id}", response_model=MeetingAudioFileResponse, status_code=status.HTTP_200_OK)
+def get_audio_file_by_id(audio_file_id: int, db: Session = Depends(get_db)):
+    return get_meeting_audio_file_service(audio_file_id=audio_file_id, db=db)
 
 @router.get(
     "/audio/user/{user_id}",
