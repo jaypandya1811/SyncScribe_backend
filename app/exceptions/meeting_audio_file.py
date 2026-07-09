@@ -7,3 +7,11 @@ class MeetingAudioFileNotFoundError(AppError):
     @property
     def default_message(self) -> str:
         return "No meeting audio file(s) found."
+    
+class MeetingAudioFileUpdateError(AppError):
+    status_code = 404
+    error_code = "meeting_audio_file_update_failed"
+
+    @property
+    def default_message(self) -> str:
+        return "Unable to update meeting audio file data."
