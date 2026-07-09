@@ -1,8 +1,11 @@
 from fastapi import APIRouter, Depends, status, File, UploadFile, Form
 from sqlalchemy.orm import Session
+from typing import Optional
+from app.db.models.meeting_audio import MeetingAudioFileStatus
 from app.db.database import get_db
-from app.schema.meeting_audio_file import MeetingAudioFileCreate, MeetingAudioFileResponse
-from app.services.meeting_audio_file import create_meeting_audio_file_service, get_meeting_audio_file_by_user_service, get_meeting_audio_file_by_meeting_service, get_meeting_audio_file_by_meeting_and_user_service, get_meeting_audio_file_service
+from app.schema.meeting_audio_file import MeetingAudioFileResponse, MeetingAudioFileUpdate
+from app.services.meeting_audio_file import create_meeting_audio_file_service, get_meeting_audio_file_by_user_service, get_meeting_audio_file_by_meeting_service, get_meeting_audio_file_by_meeting_and_user_service, get_meeting_audio_file_service, update_meeting_audio_file_service
+import json
 
 router = APIRouter(
     prefix="/uploads",
@@ -59,3 +62,21 @@ def get_meeting_audio_files_by_user_id_and_meeting_id(
     meeting_id: int,
     db: Session = Depends(get_db)):
     return get_meeting_audio_file_by_meeting_and_user_service(user_id=user_id, meeting_id=meeting_id,db=db)
+
+@router.put("/audio/update/{audio_file_id}", response_model=MeetingAudioFileResponse, status_code=status.HTTP_200_OK)
+def update_meeting_audio_file(
+    id: int = Form(...),
+    status: MeetingAudioFileStatus = Form(...),
+    transcription: Optional[str] = Form(None),
+    summary: Optional[str] = Form(None),
+    action_items: Optional[str] = Form(None),
+    db: Session = Depends(get_db),
+    ):
+    return update_meeting_audio_file_service(
+        id=id,
+        status=status,
+        transcription=transcription,
+        summary=summary,
+        action_items=json.loads(action_items) if action_items else None,
+        db=db,
+        )
