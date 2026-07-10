@@ -5,6 +5,7 @@ from app.db.models.meeting_audio import MeetingAudioFileStatus
 from app.db.database import get_db
 from app.schema.meeting_audio_file import MeetingAudioFileResponse, MeetingAudioFileUpdate
 from app.services.meeting_audio_file import create_meeting_audio_file_service, get_meeting_audio_file_by_user_service, get_meeting_audio_file_by_meeting_service, get_meeting_audio_file_by_meeting_and_user_service, get_meeting_audio_file_service, update_meeting_audio_file_service
+from app.services.audio_file_result import get_audio_result_service
 import json
 
 router = APIRouter(
@@ -80,3 +81,7 @@ def update_meeting_audio_file(
         action_items=json.loads(action_items) if action_items else None,
         db=db,
         )
+
+@router.get("/result/{audio_file_id}", response_model=MeetingAudioFileResponse, status_code=status.HTTP_200_OK)
+def get_audio_file_result(audio_file_id: int, db: Session = Depends(get_db)):
+    return get_audio_result_service(audio_file_id=audio_file_id, db=db)
