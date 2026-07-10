@@ -19,6 +19,7 @@ class MeetingAudioFileResponse(MeetingAudioFileBase):
     user_id: int
     url: str
     status: str
+    summary: Optional[str] = None
     transcription: Optional[str] = None
     transcription: Optional[str] = None
     action_items: Optional[List[dict]] = None
