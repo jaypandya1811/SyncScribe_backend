@@ -19,10 +19,11 @@ class MeetingAudioFileResponse(MeetingAudioFileBase):
     user_id: int
     url: str
     status: str
-    transcription: str
+    transcription: Optional[str] = None
+    transcription: Optional[str] = None
+    action_items: Optional[List[dict]] = None
     created_at: datetime
     updated_at: datetime
-    action_items: List[Dict[str, Any]]
 
 class MeetingAudioFileUpdate(MeetingAudioFileBase):
     id: int
