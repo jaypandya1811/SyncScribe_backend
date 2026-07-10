@@ -1,0 +1,1 @@
+from app.services.summarize_audio.summarize_audio import summarize_audio_service
