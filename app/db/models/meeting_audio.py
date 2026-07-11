@@ -2,7 +2,6 @@ from app.db.database import Base
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
 from enum import Enum
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 class MeetingAudioFileStatus(str, Enum):
