@@ -1,6 +1,4 @@
 import magic
-from fastapi import UploadFile
-from typing import cast
 from app.exceptions.audio_upload import InvalidAudioFileExtensionError, InvalidFileTypeError, FileSizeError,EmptyFileError, AudioDurationError
 from app.utils.get_file_duration import get_file_duration
 
@@ -12,6 +10,7 @@ ALLOWED_MIME_TYPES = {
     "audio/mp4",
     "audio/x-m4a",
     "audio/webm",
+    "video/webm", 
     "audio/ogg",
 }
 MAX_FILE_SIZE = 100 * 1024 * 1024
@@ -35,7 +34,7 @@ def validate_file(file_name: str, file_bytes: bytes, file_extension: str) -> Non
     if detected_mime not in ALLOWED_MIME_TYPES:
         raise InvalidFileTypeError()
     
-    duration = get_file_duration(file_bytes)
+    duration = get_file_duration(file_bytes, file_name)
 
     if duration < MIN_DURATION_SECONDS:
         raise AudioDurationError()
