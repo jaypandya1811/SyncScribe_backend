@@ -1,7 +1,7 @@
 import os
 import requests
 from app.exceptions.transcription_exception import TranscriptionFailed
-from app.core.groq_client import groq_client
+from app.utils.groq_client import groq_client
 from app.schema.ai_schema import TranscriptionResult
 from dotenv import load_dotenv
 from typing import cast

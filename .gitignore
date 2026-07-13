@@ -1,6 +1,7 @@
 .env
 environment/
 alembic/*
+tmp_audio
 !alembic/versions/
 !alembic/versions/**
 alembic.ini
