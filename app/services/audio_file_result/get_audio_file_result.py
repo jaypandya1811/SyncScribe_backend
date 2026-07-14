@@ -20,7 +20,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
         if current_status == "uploaded" or current_status == "transcript_failed": # type: ignore
             url = build_audio_file_url_service(audio_file_id=audio_file_id, db=db)
             transcription = transcribe_audio_service(url)
-            if not transcription:
+            if not transcription.text:
                 meeting_audio_file_update = MeetingAudioFileUpdate(
                 id= audio_file_id,
                 status= MeetingAudioFileStatus.TRANSCRIPT_FAILED,
