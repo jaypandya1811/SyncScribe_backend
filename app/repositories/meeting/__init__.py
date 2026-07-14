@@ -2,3 +2,4 @@ from app.repositories.meeting.create_meeting import create_meeting_repo
 from app.repositories.meeting.get_meeting_by_user import get_meeting_by_user_repo
 from app.repositories.meeting.get_meeting_by_id import get_meeting_repo
 from app.repositories.meeting.update_meeting import update_meeting_repo
+from app.repositories.meeting.delete_meeting import delete_meeting_repo
