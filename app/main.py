@@ -6,6 +6,7 @@ from app.db import engine
 from contextlib import asynccontextmanager
 from .api.router import api_router
 from .core.logger import logger
+from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,6 +25,14 @@ async def lifespan(app: FastAPI):
     print("Shutdown complete.")
 
 app = FastAPI(lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(api_router)
 
