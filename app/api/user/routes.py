@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.schema.users import UserCreate, UserResponse
+from app.schema.users import UserCreate, UserResponse, UserLogin
 from app.services.auth import AuthService
 from app.services.user.get_userById import fetch_user_by_id
 
@@ -32,7 +32,7 @@ def register(
     )
 
 def login(
-    user: UserCreate,
+    user: UserLogin,
     db: Session = Depends(get_db)
 ):
     return AuthService.login(
@@ -41,7 +41,7 @@ def login(
     )
 
 @router.get(
-    "/user/{user_id}",
+    "/{user_id}",
     response_model=UserResponse,
     status_code=status.HTTP_200_OK,
     )

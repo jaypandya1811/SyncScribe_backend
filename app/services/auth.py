@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from app.repositories.user import create_user, get_user_by_email
-from app.schema.users import UserCreate, UserResponse
+from app.schema.users import UserCreate, UserLogin
 from app.exceptions.user import UserAlreadyExistsError, UserNotFoundError, InvalidCredentialsError
 from app.utils import hash_password, verify_password
 from app.core.logger import logger
@@ -27,6 +27,8 @@ class AuthService:
 
         userData = create_user(
             db=db,
+            first_name=user.first_name,
+            last_name=user.last_name,
             email=user.email,
             password=hashed_password
         )
@@ -38,7 +40,7 @@ class AuthService:
     @staticmethod
     def login(
         db: Session,
-        user: UserCreate,
+        user: UserLogin,
     ):
         user_by_email = get_user_by_email(
             db=db,
