@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends, status, File, UploadFile, Form
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.schema.meetings import MeetingCreate, MeetingResponse, MeetingUpdate
-from app.services.meeting import create_meeting_service, get_meeting_by_user_service, get_meeting_service, update_meeting_service, delete_meeting_service
+from app.schema.meetings import MeetingCreate, MeetingResponse, MeetingUpdate, MeetingOverviewResponse
+from app.services.meeting import create_meeting_service, get_meeting_by_user_service, get_meeting_service, update_meeting_service, delete_meeting_service, get_meeting_overview_service
 
 router = APIRouter(
     prefix="/meeting",
@@ -25,6 +25,10 @@ def get_meetings_by_user(user_id: int, db: Session = Depends(get_db)):
 @router.get("/{meeting_id}", response_model=MeetingResponse, status_code=status.HTTP_200_OK)
 def get_meeting(meeting_id: int, db: Session = Depends(get_db)):
     return get_meeting_service(meeting_id=meeting_id, db=db)
+
+@router.get("/overview/{meeting_id}", response_model=MeetingOverviewResponse, status_code=status.HTTP_200_OK)
+def get_meeting_overview(meeting_id: int, db: Session = Depends(get_db)):
+    return get_meeting_overview_service(meeting_id=meeting_id, db=db)
 
 @router.put("/update_meeting/{meeting_id}", response_model=MeetingResponse, status_code=status.HTTP_200_OK)
 def update_meeting(meeting_id: int, meeting: MeetingUpdate, db: Session = Depends(get_db)):
