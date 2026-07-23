@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import Optional
 from app.db.models.meeting_audio import MeetingAudioFileStatus
 from app.db.database import get_db
-from app.schema.meeting_audio_file import MeetingAudioFileResponse, MeetingAudioFileUpdate
+from app.schema.meeting_audio_file import MeetingAudioFileResponse
 from app.services.meeting_audio_file import create_meeting_audio_file_service, get_meeting_audio_file_by_user_service, get_meeting_audio_file_by_meeting_service, get_meeting_audio_file_by_meeting_and_user_service, get_meeting_audio_file_service, update_meeting_audio_file_service, delete_meeting_audio_file_service
 from app.services.audio_file_result import get_audio_result_service
 import json
