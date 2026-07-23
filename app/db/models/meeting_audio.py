@@ -3,6 +3,8 @@ from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
 from enum import Enum
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.sql import func
+from sqlalchemy.orm import Mapped, mapped_column
+from typing import Any
 
 class MeetingAudioFileStatus(str, Enum):
     UPLOADED = "uploaded"
@@ -21,7 +23,7 @@ class MeetingAudioFile(Base):
     original_filename = Column(String, nullable=True)
     transcription = Column(Text, nullable=True)
     summary = Column(Text, nullable=True)
-    action_items = Column(JSONB, nullable=True)
+    action_items: Mapped[list[dict[str, Any]] | None] = mapped_column(JSONB, nullable=True)
     status = Column(String, nullable=False, default=MeetingAudioFileStatus.UPLOADED)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())

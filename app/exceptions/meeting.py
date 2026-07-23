@@ -16,3 +16,11 @@ class MeetingUpdateError(AppError):
     @property
     def default_message(self) -> str:
         return "Unable to update meeting."
+
+class MeetingOverviewError(AppError):
+    status_code = 400
+    error_code = "meeting_overview_error"
+
+    @property
+    def default_message(self) -> str:
+        return "Failed to fetch meeting overview"

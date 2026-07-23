@@ -21,7 +21,6 @@ class MeetingAudioFileResponse(MeetingAudioFileBase):
     status: str
     summary: Optional[str] = None
     transcription: Optional[str] = None
-    transcription: Optional[str] = None
     action_items: Optional[List[dict]] = None
     created_at: datetime
     updated_at: datetime
