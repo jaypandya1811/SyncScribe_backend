@@ -5,6 +5,7 @@ class MeetingCreate(BaseModel):
     name: str
     user_id: int
     type: str
+    speakers: int | None = None
     description: str | None = None
 
 class MeetingUpdate(BaseModel):
@@ -15,6 +16,7 @@ class MeetingResponse(BaseModel):
     user_id: int
     name: str
     type: str
+    speakers: int | None = None
     description: str | None = None
     status: str
     created_at: datetime
