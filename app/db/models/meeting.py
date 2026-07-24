@@ -1,6 +1,5 @@
 from app.db.database import Base
-from sqlalchemy import Column, Integer, String, Boolean, Text, ForeignKey, DateTime
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -11,6 +10,7 @@ class Meeting(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     name = Column(String, nullable=False)
     type = Column(String, nullable=True)
+    speakers = Column(Integer, nullable=True)
     description = Column(Text, nullable=True)
     status = Column(String, default="pending")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
