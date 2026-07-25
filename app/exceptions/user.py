@@ -23,3 +23,19 @@ class InvalidCredentialsError(AppError):
     @property
     def default_message(self) -> str:
         return "Incorrect email or password."
+
+class NotAuthenticatedError(AppError):
+    status_code = 401
+    error_code = "not_authenticated"
+
+    @property
+    def default_message(self) -> str:
+        return "Not authenticated."
+
+class InvalidTokenError(AppError):
+    status_code = 401
+    error_code = "invalid_token"
+
+    @property
+    def default_message(self) -> str:
+        return "Invalid or expired token."
