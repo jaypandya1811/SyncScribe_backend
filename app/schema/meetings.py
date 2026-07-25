@@ -38,4 +38,7 @@ class MeetingOverviewResponse(BaseModel):
     speakers: int | None = None
     summaries: list[AudioFileSummaryBlock]
     action_items: list[dict]
+    action_items_count: int
+    audio_file_count: int
     pending_count: int
+    created_at: str

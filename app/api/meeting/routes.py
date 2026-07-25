@@ -16,7 +16,7 @@ router = APIRouter(
     )
 
 def create_meeting(meeting: MeetingCreate, db: Session = Depends(get_db)):
-    return create_meeting_service(user_id=meeting.user_id, name=meeting.name, type=meeting.type, description=meeting.description, db=db)
+    return create_meeting_service(user_id=meeting.user_id, name=meeting.name, type=meeting.type, description=meeting.description, speakers=meeting.speakers, db=db)
 
 @router.get("/get_meetings/{user_id}", response_model=list[MeetingResponse], status_code=status.HTTP_200_OK)
 def get_meetings_by_user(user_id: int, db: Session = Depends(get_db)):

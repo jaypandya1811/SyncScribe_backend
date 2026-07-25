@@ -14,6 +14,7 @@ def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOvervie
         summaries = []
         combined_action_items = []
         pending_count = 0
+        audio_file_count = len(audio_files)
 
         for audio_file in audio_files:
             summaries.append(AudioFileSummaryBlock(
@@ -43,6 +44,9 @@ def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOvervie
             summaries=summaries,
             action_items=combined_action_items,
             pending_count=pending_count,
+            action_items_count=len(combined_action_items),
+            audio_file_count=audio_file_count,
+            created_at=cast(str, meeting.created_at),
         )
     except MeetingNotFound:
         raise
