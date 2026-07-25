@@ -35,6 +35,7 @@ class MeetingOverviewResponse(BaseModel):
     meeting_name: str
     meeting_type: str
     meeting_status: str
+    speakers: int | None = None
     summaries: list[AudioFileSummaryBlock]
     action_items: list[dict]
     pending_count: int
