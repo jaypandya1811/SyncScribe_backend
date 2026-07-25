@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from app.db.models.user import User
 from sqlalchemy.exc import SQLAlchemyError
 
-def get_user_by_id(db: Session, id: int) -> User | None:
+def get_user_by_id_repo(db: Session, id: int) -> User | None:
     try: 
         user = db.get(User, id)
 

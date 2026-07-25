@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, Request, Response
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.schema.users import UserCreate, UserResponse, UserLogin
@@ -33,12 +33,26 @@ def register(
 
 def login(
     user: UserLogin,
+    response: Response,
     db: Session = Depends(get_db)
 ):
     return AuthService.login(
         db=db,
+        response=response,
         user=user,
     )
+
+@router.get(
+    "/me",
+    response_model=UserResponse,
+    status_code=status.HTTP_200_OK,
+    )
+
+def get_current_user(
+    request: Request,
+    db: Session = Depends(get_db)
+):
+    return AuthService.get_current_user_service(request=request, db=db)
 
 @router.get(
     "/{user_id}",
