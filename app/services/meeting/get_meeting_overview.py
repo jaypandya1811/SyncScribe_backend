@@ -5,6 +5,7 @@ from app.exceptions.meeting import MeetingNotFound, MeetingOverviewError
 from app.repositories.meeting.get_meeting_by_id import get_meeting_repo
 from app.repositories.meeting_audio_file.get_meeting_audio_file_by_meeting import get_meeting_audio_by_meeting_repo
 from typing import cast
+from datetime import datetime
 
 def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOverviewResponse:
     try:
@@ -14,6 +15,7 @@ def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOvervie
         summaries = []
         combined_action_items = []
         pending_count = 0
+        audio_file_count = len(audio_files)
 
         for audio_file in audio_files:
             summaries.append(AudioFileSummaryBlock(
@@ -43,9 +45,13 @@ def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOvervie
             summaries=summaries,
             action_items=combined_action_items,
             pending_count=pending_count,
+            action_items_count=len(combined_action_items),
+            audio_file_count=audio_file_count,
+            created_at=cast(datetime, meeting.created_at),
         )
     except MeetingNotFound:
         raise
     except Exception as e:
         logger.error(f"An error occurred while building meeting overview: {e}")
+        print(e)
         raise MeetingOverviewError()
