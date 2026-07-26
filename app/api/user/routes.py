@@ -68,3 +68,7 @@ def get_user_by_id(
         db=db,
         user_id=user_id,
     )
+
+@router.post("/logout")
+def logout_user(response: Response):
+    return AuthService.logout_service(response=response)

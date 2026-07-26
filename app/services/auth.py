@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
-from fastapi import Response, Request
+from fastapi import Response, Request, Depends
+from app.db.database import get_db
 from app.repositories.user import create_user, get_user_by_email
 from app.schema.users import UserCreate, UserLogin
 from app.exceptions.user import UserAlreadyExistsError, UserNotFoundError, InvalidCredentialsError
@@ -77,7 +78,7 @@ class AuthService:
         return user_by_email
 
     @staticmethod
-    def get_current_user_service(request: Request, db: Session):
+    def get_current_user_service(request: Request, db: Session = Depends(get_db)):
         token = request.cookies.get(settings.COOKIE_NAME)
         if not token:
             raise NotAuthenticatedError()
@@ -92,3 +93,15 @@ class AuthService:
             raise InvalidTokenError()
 
         return db_user
+
+    @staticmethod
+    def logout_service(response: Response) -> dict:
+        response.delete_cookie(
+        key=settings.COOKIE_NAME,
+        path="/",
+        secure=settings.COOKIE_SECURE,
+        samesite=settings.COOKIE_SAMESITE,
+        httponly=True,
+    )
+        logger.info("user logged out")
+        return {"message": "logged out successfully"}

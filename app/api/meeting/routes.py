@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.schema.meetings import MeetingCreate, MeetingResponse, MeetingUpdate, MeetingOverviewResponse
 from app.services.meeting import create_meeting_service, get_meeting_by_user_service, get_meeting_service, update_meeting_service, delete_meeting_service, get_meeting_overview_service
+from app.services.auth import AuthService
+from app.schema.users import UserResponse
 
 router = APIRouter(
     prefix="/meeting",
@@ -15,10 +17,10 @@ router = APIRouter(
     status_code=status.HTTP_201_CREATED,
     )
 
-def create_meeting(meeting: MeetingCreate, db: Session = Depends(get_db)):
-    return create_meeting_service(user_id=meeting.user_id, name=meeting.name, type=meeting.type, description=meeting.description, speakers=meeting.speakers, db=db)
+def create_meeting(meeting: MeetingCreate, current_user: UserResponse = Depends(AuthService.get_current_user_service),db: Session = Depends(get_db)):
+    return create_meeting_service(user_id=current_user.id, name=meeting.name, type=meeting.type, description=meeting.description, speakers=meeting.speakers, db=db)
 
-@router.get("/get_meetings/{user_id}", response_model=list[MeetingResponse], status_code=status.HTTP_200_OK)
+@router.get("/get_meetings", response_model=list[MeetingResponse], status_code=status.HTTP_200_OK)
 def get_meetings_by_user(user_id: int, db: Session = Depends(get_db)):
     return get_meeting_by_user_service(user_id=user_id, db=db)
 
