@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.schema.meetings import MeetingCreate, MeetingResponse, MeetingUpdate, MeetingOverviewResponse
-from app.services.meeting import create_meeting_service, get_meeting_by_user_service, get_meeting_service, update_meeting_service, delete_meeting_service, get_meeting_overview_service
+from app.services.meeting import create_meeting_service, get_meeting_by_user_service, get_meeting_service, update_meeting_service, delete_meeting_service, get_meeting_overview_service, get_meeting_details_service
 from app.services.auth import AuthService
 from app.schema.users import UserResponse
 
@@ -23,6 +23,10 @@ def create_meeting(meeting: MeetingCreate, current_user: UserResponse = Depends(
 @router.get("/get_meetings", response_model=list[MeetingResponse], status_code=status.HTTP_200_OK)
 def get_meetings_by_user(user_id: int, db: Session = Depends(get_db)):
     return get_meeting_by_user_service(user_id=user_id, db=db)
+
+@router.get("/details", response_model=list[MeetingOverviewResponse], status_code=status.HTTP_200_OK)
+def get_meeting_details(current_user: UserResponse = Depends(AuthService.get_current_user_service), db: Session = Depends(get_db)):
+    return get_meeting_details_service(user_id=current_user.id, db=db)
 
 @router.get("/{meeting_id}", response_model=MeetingResponse, status_code=status.HTTP_200_OK)
 def get_meeting(meeting_id: int, db: Session = Depends(get_db)):

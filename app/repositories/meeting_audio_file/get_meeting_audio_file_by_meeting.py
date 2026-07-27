@@ -9,6 +9,6 @@ def get_meeting_audio_by_meeting_repo(meeting_id: int, db: Session) -> list[Meet
         if meeting_audio_file_data:
             return meeting_audio_file_data
         else:
-            raise MeetingAudioFileNotFoundError()
+            return []
     except SQLAlchemyError:
         raise MeetingAudioFileNotFoundError()

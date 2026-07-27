@@ -28,7 +28,11 @@ class AudioFileSummaryBlock(BaseModel):
     audio_file_id: int
     name: str
     summary: str | None
+    transcription: str | None
+    url: str | None
     status: str
+    created_at: datetime
+    updated_at: datetime
 
 class MeetingOverviewResponse(BaseModel):
     meeting_id: int
@@ -36,7 +40,7 @@ class MeetingOverviewResponse(BaseModel):
     meeting_type: str
     meeting_status: str
     speakers: int | None = None
-    summaries: list[AudioFileSummaryBlock]
+    audio_files: list[AudioFileSummaryBlock]
     action_items: list[dict]
     action_items_count: int
     audio_file_count: int
