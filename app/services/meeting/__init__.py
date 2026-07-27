@@ -4,3 +4,4 @@ from app.services.meeting.get_meeting_by_id import get_meeting_service
 from app.services.meeting.update_meeting import update_meeting_service
 from app.services.meeting.delete_meeting import delete_meeting_service
 from app.services.meeting.get_meeting_overview import get_meeting_overview_service
+from app.services.meeting.get_meetings_details import get_meeting_details_service

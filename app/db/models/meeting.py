@@ -12,7 +12,7 @@ class Meeting(Base):
     type = Column(String, nullable=True)
     speakers = Column(Integer, nullable=True)
     description = Column(Text, nullable=True)
-    status = Column(String, default="pending")
+    status = Column(String, default="Pending")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
 
