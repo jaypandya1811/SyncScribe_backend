@@ -2,9 +2,8 @@ import uuid
 import io
 from fastapi import UploadFile
 from app.utils.s3_client import s3_client, BUCKET_NAME
-from typing import cast
 from botocore.exceptions import BotoCoreError, ClientError
-from app.exceptions import AudioFileUploadError
+from app.exceptions import AudioFileUploadError, InvalidFileError
 from app.core.logger import logger
 from app.utils.validate_file import validate_file
 from app.utils.video_to_audio import extract_audio_from_video
@@ -23,7 +22,9 @@ def get_content_type(file_extension: str) -> str:
     return CONTENT_TYPE_MAP.get(file_extension, "application/octet-stream")
 
 def upload_audio_to_s3(file: UploadFile, user_id: int, meeting_id: int) -> str:
-    file_name = cast(str, file.filename)
+    file_name = file.filename
+    if not file_name:
+        raise InvalidFileError()
     file_extension = file_name.rsplit(".")[-1].lower()
     try:
         file_bytes = file.file.read()
