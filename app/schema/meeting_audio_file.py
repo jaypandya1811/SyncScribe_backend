@@ -26,7 +26,6 @@ class MeetingAudioFileResponse(MeetingAudioFileBase):
     updated_at: datetime
 
 class MeetingAudioFileUpdate(MeetingAudioFileBase):
-    id: int
     status: MeetingAudioFileStatus
     transcription: Optional[str] = None
     summary: Optional[str] = None
