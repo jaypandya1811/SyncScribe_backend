@@ -21,8 +21,8 @@ def create_meeting(meeting: MeetingCreate, current_user: UserResponse = Depends(
     return create_meeting_service(user_id=current_user.id, name=meeting.name, type=meeting.type, description=meeting.description, speakers=meeting.speakers, db=db)
 
 @router.get("/get_meetings", response_model=list[MeetingResponse], status_code=status.HTTP_200_OK)
-def get_meetings_by_user(user_id: int, db: Session = Depends(get_db)):
-    return get_meeting_by_user_service(user_id=user_id, db=db)
+def get_meetings_by_user(current_user: UserResponse = Depends(AuthService.get_current_user_service), db: Session = Depends(get_db)):
+    return get_meeting_by_user_service(user_id=current_user.id, db=db)
 
 @router.get("/details", response_model=list[MeetingOverviewResponse], status_code=status.HTTP_200_OK)
 def get_meeting_details(current_user: UserResponse = Depends(AuthService.get_current_user_service), db: Session = Depends(get_db)):

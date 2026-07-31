@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 
 class MeetingAudioFileStatus(str, Enum):
     UPLOADED = "uploaded"
+    PROCESSING = "processing"
     TRANSCRIPT_FAILED = "transcript_failed"
     TRANSCRIBED = "transcribed"
     SUMMARIZATION_FAILED = "summarization_failed"
