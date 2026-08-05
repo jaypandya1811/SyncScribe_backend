@@ -4,14 +4,14 @@ from app.exceptions.transcription_exception import TranscriptionFailed
 from app.utils.groq_client import groq_client
 from app.schema.ai_schema import TranscriptionResult
 from dotenv import load_dotenv
-from typing import cast
+from typing import Optional, cast
 from app.core.logger import logger
 
 load_dotenv()
 
 model = cast(str, os.getenv("TRANSCRIPTION_MODEL"))
 
-def transcribe_audio_service(file_url: str) -> TranscriptionResult:
+def transcribe_audio_service(file_url: str) -> Optional[TranscriptionResult]:
     try:
         response = requests.get(file_url, timeout=30)
         response.raise_for_status()
@@ -25,6 +25,10 @@ def transcribe_audio_service(file_url: str) -> TranscriptionResult:
             text=transcription.text,
             segments=getattr(transcription, "segments", []) or [],
         )
+    except requests.RequestException as e:
+        logger.error(f"failed to download audio file from {file_url}: {e}")
+        return None
     except Exception as e:
-        logger.error(f"An error occured while transcribing an audio: ", {e})
-        raise TranscriptionFailed()
+        # covers Groq SDK errors: AuthenticationError, RateLimitError, APIError, etc.
+        logger.error(f"groq transcription failed: {e}")
+        return None
