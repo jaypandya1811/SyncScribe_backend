@@ -28,12 +28,12 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
             status= MeetingStatus.PROCESSING
         )
         update_meeting_repo(meeting_id=audio_file.meeting_id, meeting=meeting_update, db=db)
-        if current_status == "uploaded" or current_status == "transcript_failed":
+        if current_status == "uploaded" or current_status == "transcript_failed" or current_status == "processing":
             url = build_audio_file_url_service(audio_file_id=audio_file_id, db=db)
             transcription = transcribe_audio_service(url)
-            if not transcription.text:
+            if transcription is None or not transcription.text:
                 meeting_audio_file_update = MeetingAudioFileUpdate(
-                status= MeetingAudioFileStatus.TRANSCRIPT_FAILED,
+                    status= MeetingAudioFileStatus.TRANSCRIPT_FAILED,
                 )  
                 meeting_update = MeetingUpdate(
                     status= MeetingStatus.FAILED
@@ -49,6 +49,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
                 )
                 logger.info(f"transcription generated for audio file with id: {audio_file_id}, transcrption: {transcription.text}")
                 updated_data = update_meeting_audio_file_repo(audio_file_id=audio_file_id, meeting_audio_file_update=meeting_audio_file_update, db=db)
+                print(f"updated audio file data in transcribe block", updated_data)
                 current_status = updated_data.status
         if current_status == "transcribed" or current_status == "summarization_failed":
             summary = summarize_audio_service(audio_file.transcription) # type: ignore
@@ -74,6 +75,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
                 )
                 logger.info(f"summary and action items generated for audio file with id: {audio_file_id}, summary: {summary}, action items: {[item.model_dump() for item in summary.action_items]}")
                 updated_data = update_meeting_audio_file_repo(audio_file_id=audio_file_id, meeting_audio_file_update=meeting_audio_file_update, db=db)
+                print(f"updated audio file data in summarize block", updated_data)
                 update_meeting_repo(meeting_id=updated_data.meeting_id, meeting=meeting_update, db=db)
             if updated_data is None:
                 meeting_update = MeetingUpdate(

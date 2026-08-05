@@ -11,6 +11,13 @@ class MeetingAudioFileCreate(MeetingAudioFileBase):
     user_id: int
     url: str
 
+class MeetingSummary(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    name: str
+    status: str
+
 class MeetingAudioFileResponse(MeetingAudioFileBase):
     model_config = ConfigDict(from_attributes=True)
 
@@ -22,6 +29,7 @@ class MeetingAudioFileResponse(MeetingAudioFileBase):
     summary: Optional[str] = None
     transcription: Optional[str] = None
     action_items: Optional[List[dict]] = None
+    meeting: MeetingSummary
     created_at: datetime
     updated_at: datetime
 

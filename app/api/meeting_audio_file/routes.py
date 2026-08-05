@@ -40,8 +40,9 @@ def get_audio_file_by_id(audio_file_id: int, db: Session = Depends(get_db)):
 
 def get_meeting_audio_files_by_user_id(
     db: Session = Depends(get_db),
+    status: Optional[str] = None,
     current_user: UserResponse = Depends(AuthService.get_current_user_service)):
-    return get_meeting_audio_file_by_user_service(user_id=current_user.id, db=db)
+    return get_meeting_audio_file_by_user_service(user_id=current_user.id, status=status,db=db)
 
 @router.get(
     "/audio/meeting/{meeting_id}",
