@@ -89,6 +89,6 @@ def update_meeting_audio_file(
 def get_audio_file_result(audio_file_id: int, db: Session = Depends(get_db)):
     return get_audio_result_service(audio_file_id=audio_file_id, db=db)
 
-@router.delete("/delete/{audio_file_id}", response_model=MeetingAudioFileResponse, status_code=status.HTTP_200_OK)
+@router.delete("/delete/{audio_file_id}", status_code=status.HTTP_200_OK)
 def delete_meeting_audio_file(audio_file_id: int, db: Session = Depends(get_db)):
     return delete_meeting_audio_file_service(audio_file_id=audio_file_id, db=db)

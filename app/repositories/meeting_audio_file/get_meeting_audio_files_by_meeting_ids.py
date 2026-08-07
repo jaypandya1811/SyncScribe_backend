@@ -14,6 +14,6 @@ def get_meeting_audio_fiels_by_meeting_ids_repo(meeting_ids: list[int], db: Sess
         if meeting_audio_file_data:
             return meeting_audio_file_data
         else:
-            raise MeetingAudioFileNotFoundError()
+            return []
     except SQLAlchemyError:
         raise

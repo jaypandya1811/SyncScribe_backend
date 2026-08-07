@@ -40,6 +40,6 @@ def get_meeting_overview(meeting_id: int, db: Session = Depends(get_db)):
 def update_meeting(meeting_id: int, meeting: MeetingUpdate, db: Session = Depends(get_db)):
     return update_meeting_service(meeting_id=meeting_id, meeting=meeting, db=db)
 
-@router.delete("/delete/{meeting_id}", response_model=MeetingResponse, status_code=status.HTTP_200_OK)
+@router.delete("/delete/{meeting_id}", status_code=status.HTTP_200_OK)
 def delete_meeting(meeting_id: int, db: Session = Depends(get_db)):
     return delete_meeting_service(meeting_id=meeting_id, db=db)
