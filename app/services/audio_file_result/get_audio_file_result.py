@@ -21,6 +21,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
         updated_data = None
         current_status = audio_file.status
         meeting_audio_file_update = MeetingAudioFileUpdate(
+            id=audio_file_id,
             status= MeetingAudioFileStatus.PROCESSING,
         )
         update_meeting_audio_file_repo(audio_file_id=audio_file_id, meeting_audio_file_update=meeting_audio_file_update, db=db)
@@ -33,6 +34,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
             transcription = transcribe_audio_service(url)
             if transcription is None or not transcription.text:
                 meeting_audio_file_update = MeetingAudioFileUpdate(
+                    id=audio_file_id,
                     status= MeetingAudioFileStatus.TRANSCRIPT_FAILED,
                 )  
                 meeting_update = MeetingUpdate(
@@ -44,6 +46,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
                 return updated_data
             else:
                 meeting_audio_file_update = MeetingAudioFileUpdate(
+                    id=audio_file_id,
                     status= MeetingAudioFileStatus.TRANSCRIBED,
                     transcription= transcription.text,
                 )
@@ -55,6 +58,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
             summary = summarize_audio_service(audio_file.transcription) # type: ignore
             if not summary:
                 meeting_audio_file_update = MeetingAudioFileUpdate(
+                id= audio_file_id,
                 status= MeetingAudioFileStatus.SUMMARIZATION_FAILED,
                 ) 
                 meeting_update = MeetingUpdate(
@@ -66,6 +70,7 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
                 return updated_data
             else:     
                 meeting_audio_file_update = MeetingAudioFileUpdate(
+                    id= audio_file_id,
                     status= MeetingAudioFileStatus.SUMMARIZED,
                     summary=summary.summary,
                     action_items=[item.model_dump() for item in summary.action_items],

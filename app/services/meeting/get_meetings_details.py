@@ -66,5 +66,4 @@ def get_meeting_details_service(user_id: int, db: Session) -> list[MeetingOvervi
         raise
     except Exception as e:
         logger.error(f"An error occurred while building meeting details: {e}")
-        print(e)
         raise MeetingOverviewError()

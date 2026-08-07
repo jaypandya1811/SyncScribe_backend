@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status, File, UploadFile, Form
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile, Form
 from sqlalchemy.orm import Session
 from app.schema.users import UserResponse
 from app.services.auth import AuthService
@@ -76,12 +76,19 @@ def update_meeting_audio_file(
     action_items: Optional[str] = Form(None),
     db: Session = Depends(get_db),
     ):
+    try:
+        parsed_action_items = json.loads(action_items) if action_items else None
+    except json.JSONDecodeError:
+        raise HTTPException(
+            status_code=422,
+            detail="action_items must be valid JSON or omitted.",
+        )   
     return update_meeting_audio_file_service(
         id=id,
         status=status,
         transcription=transcription,
         summary=summary,
-        action_items=json.loads(action_items) if action_items else None,
+        action_items=parsed_action_items,
         db=db,
         )
 

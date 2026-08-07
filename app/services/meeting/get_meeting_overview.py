@@ -58,5 +58,4 @@ def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOvervie
         raise
     except Exception as e:
         logger.error(f"An error occurred while building meeting overview: {e}")
-        print(e)
         raise MeetingOverviewError()

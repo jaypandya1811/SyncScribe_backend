@@ -1,6 +1,7 @@
 import os
+from pathlib import Path
+from urllib.parse import urlparse
 import requests
-from app.exceptions.transcription_exception import TranscriptionFailed
 from app.utils.groq_client import groq_client
 from app.schema.ai_schema import TranscriptionResult
 from dotenv import load_dotenv
@@ -12,11 +13,12 @@ load_dotenv()
 model = cast(str, os.getenv("TRANSCRIPTION_MODEL"))
 
 def transcribe_audio_service(file_url: str) -> Optional[TranscriptionResult]:
+    ext = Path(urlparse(file_url).path).suffix or ".m4a"
     try:
         response = requests.get(file_url, timeout=30)
         response.raise_for_status()
         transcription = groq_client.audio.transcriptions.create(
-            file=("audio.m4a", response.content),
+            file=(f"audio{ext}", response.content),
             model=model,
             language="en",
             response_format="verbose_json",
@@ -29,6 +31,5 @@ def transcribe_audio_service(file_url: str) -> Optional[TranscriptionResult]:
         logger.error(f"failed to download audio file from {file_url}: {e}")
         return None
     except Exception as e:
-        # covers Groq SDK errors: AuthenticationError, RateLimitError, APIError, etc.
         logger.error(f"groq transcription failed: {e}")
         return None

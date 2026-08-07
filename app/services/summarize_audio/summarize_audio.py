@@ -1,6 +1,5 @@
 import os
 import json
-from app.exceptions.summarization_exception import SummarizationFailed
 from app.utils.groq_client import groq_client
 from app.schema.ai_schema import SummaryResult
 from dotenv import load_dotenv

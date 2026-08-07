@@ -10,7 +10,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("Starting up: Verifying database connectivity...")
     try:
         with engine.connect() as connection:
             print("Successfully connected to the Supabase PostgreSQL instance!")
@@ -20,7 +19,6 @@ async def lifespan(app: FastAPI):
         
     yield
     
-    print("Shutting down: Cleaning up database connection pool...")
     engine.dispose()
     print("Shutdown complete.")
 

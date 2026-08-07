@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from app.db.models.meeting_audio import MeetingAudioFile
 from sqlalchemy.exc import SQLAlchemyError
-from app.exceptions.meeting_audio_file import MeetingAudioFileNotFoundError
 
 def get_meeting_audio_fiels_by_meeting_ids_repo(meeting_ids: list[int], db: Session) -> list[MeetingAudioFile]:
     try:

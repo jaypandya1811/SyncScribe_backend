@@ -17,27 +17,19 @@ ALLOWED_EXTENSIONS = {
 ALLOWED_MIME_TYPES = {
     "audio/mpeg",  
     "audio/mp3",
-
     "audio/wav",
     "audio/x-wav",
-
     "audio/mp4",       
     "audio/x-m4a",
-
     "audio/aac",
     "audio/x-aac",
-
     "audio/flac",
     "audio/x-flac",
-
     "audio/amr",
-
     "audio/3gpp",     
     "video/3gpp",
-
     "audio/webm",
     "video/webm",
-
     "audio/ogg",
     "application/ogg",
 }
