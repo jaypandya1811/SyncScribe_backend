@@ -248,6 +248,7 @@ docker compose up --build
 * AI transcription
 * AI summarization
 * Action item extraction
+* Jwt based authentication
 * Database persistence
 * Progress tracking
 * Docker support
@@ -273,7 +274,7 @@ docker compose up --build
 
 The frontend for SyncScribe is maintained separately.
 
-➡️ **Frontend Repository:** https://github.com/<your-username>/SyncScribe_frontend
+➡️ **Frontend Repository:** https://github.com/jaypandya1811/SyncScribe_frontend
 
 ---
 
