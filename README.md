@@ -287,5 +287,6 @@ This project is licensed under the MIT License.
 ## 👨‍💻 Author
 
 **Jay Pandya**
+pandyajay005@gmail.com
 
 Built with **FastAPI**, **AWS**, **Supabase**, and **Groq AI** to demonstrate production-oriented backend engineering, AI integration, and scalable API design.
