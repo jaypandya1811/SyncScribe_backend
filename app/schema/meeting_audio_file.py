@@ -39,3 +39,4 @@ class MeetingAudioFileUpdate(MeetingAudioFileBase):
     transcription: Optional[str] = None
     summary: Optional[str] = None
     action_items: Optional[List[Dict[str, Any]]] = None
+    retry_count: Optional[int] = None
