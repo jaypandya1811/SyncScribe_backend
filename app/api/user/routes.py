@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, status, Request, Response
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.schema.users import UserCreate, UserResponse, UserLogin
+from app.schema.users import UserCreate, UserResponse, UserLogin, DashboardCounts
 from app.services.auth import AuthService
 from app.services.user.get_userById import fetch_user_by_id
+from app.services.user.get_dashboard_counts import get_dashboard_counts
 
 router = APIRouter(
     prefix="/user",
@@ -40,6 +41,21 @@ def login(
         db=db,
         response=response,
         user=user,
+    )
+
+@router.get(
+    "/user_counts",
+    response_model=DashboardCounts,
+    status_code=status.HTTP_200_OK,
+    )
+
+def get_dashboard_counts_by_user(
+    current_user: UserResponse = Depends(AuthService.get_current_user_service),
+    db: Session = Depends(get_db)
+):
+    return get_dashboard_counts(
+        user_id=current_user.id,
+        db=db,
     )
 
 @router.get(
