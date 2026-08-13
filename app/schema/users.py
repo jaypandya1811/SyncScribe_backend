@@ -25,3 +25,9 @@ class UserResponse(BaseModel):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+class DashboardCounts(BaseModel):
+    meeting_count: int | None = None 
+    audio_file_count: int | None = None 
+    pending_meeting_count: int | None = None 
+    failed_audiofile_count: int | None = None 
