@@ -15,6 +15,7 @@ def summarize_audio_service(text: str) -> Optional[SummaryResult]:
     try:
         response = groq_client.chat.completions.create(
         model=model,
+        reasoning_effort="low",
         messages=[
             {"role": "system", "content": prompt.replace("\\n", "\n")},
             {"role": "user", "content": text},

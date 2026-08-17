@@ -4,6 +4,7 @@ from app.utils.get_file_duration import get_file_duration
 
 ALLOWED_EXTENSIONS = {
     "mp3",
+    "mpeg",
     "wav",
     "m4a",
     "mp4",
@@ -15,7 +16,8 @@ ALLOWED_EXTENSIONS = {
     "3gp",
 }
 ALLOWED_MIME_TYPES = {
-    "audio/mpeg",  
+    "audio/mpeg",
+    "video/mpeg",  
     "audio/mp3",
     "audio/wav",
     "audio/x-wav",
