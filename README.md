@@ -29,7 +29,7 @@ The system is designed to handle long-running AI tasks safely, allowing users to
 * Multi-speaker audio transcription
 * AI-generated meeting summaries
 * Automatic action item extraction
-* Strict JSON output using Llama 3 JSON Mode
+* Strict JSON output using openai/gpt-oss-120b
 
 ### Reliable Processing Pipeline
 
@@ -78,7 +78,7 @@ The system is designed to handle long-running AI tasks safely, allowing users to
 | AWS S3                  | Audio Storage          |
 | Groq Cloud API          | AI Inference           |
 | Whisper Large V3        | Speech-to-Text         |
-| Llama 3.3 70B Versatile | Summary & Action Items |
+| openai/gpt-oss-120b     | Summary & Action Items |
 | Docker                  | Containerization       |
 
 ---
@@ -127,7 +127,7 @@ Whisper Transcription
 (Status: transcribed)
       │
       ▼
-Llama 3 Summary Generation
+openai/gpt-oss-120b Summary Generation
 (Status: summarized)
       │
       ▼
