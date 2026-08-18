@@ -1,14 +1,9 @@
 from pydantic import BaseModel
-from typing import Optional, List
-
-class ActionItem(BaseModel):
-    task: str
-    owner: Optional[str] = None
-    due_date: Optional[str] = None
+from typing import List
 
 class SummaryResult(BaseModel):
     summary: str
-    action_items: List[ActionItem]
+    action_items: List[str]
 
 class TranscriptionResult(BaseModel):
     text: str

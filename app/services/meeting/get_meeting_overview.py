@@ -35,7 +35,7 @@ def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOvervie
 
                 for item in (audio_file.action_items or []):
                     combined_action_items.append({
-                        **item,
+                        "task": item,
                         "audio_file_id": audio_file.id,
                     })
 
@@ -46,6 +46,7 @@ def get_meeting_overview_service(meeting_id: int, db: Session) -> MeetingOvervie
             meeting_name= meeting.name,
             meeting_type= meeting.type,
             meeting_status= meeting.status,
+            description=meeting.description,
             speakers= meeting.speakers,
             audio_files=audio_files,
             action_items=combined_action_items,

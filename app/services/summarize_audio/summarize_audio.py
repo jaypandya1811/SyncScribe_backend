@@ -31,13 +31,18 @@ def summarize_audio_service(text: str) -> Optional[SummaryResult]:
     except Exception as e:
         logger.error(f"failed to generate summary and action items: {e}")
         return None
-    
+
     try:
         parsed = json.loads(raw_content)
     except json.JSONDecodeError as e:
         logger.error(f"Groq returned invalid JSON: {e} | raw: {raw_content}")
         return None
-    print(f"summary from llama3: {parsed}")
+
+    if "summary" not in parsed or "action_items" not in parsed:
+        logger.error(f"Groq JSON missing expected keys | raw: {raw_content}")
+        return None
+
+    logger.info(f"summary from {model}: {parsed}")
 
     return SummaryResult(
         summary=parsed["summary"],

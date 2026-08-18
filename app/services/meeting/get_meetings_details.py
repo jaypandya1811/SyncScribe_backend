@@ -18,6 +18,7 @@ def get_meeting_details_service(user_id: int, db: Session) -> list[MeetingOvervi
 
         details = []
         for meeting in meetings:
+            print(meeting)
             audio_files = []
             combined_action_items = []
             pending_count = 0
@@ -42,7 +43,7 @@ def get_meeting_details_service(user_id: int, db: Session) -> list[MeetingOvervi
 
                 for item in (audio_file.action_items or []):
                     combined_action_items.append({
-                        **item,
+                        "task": item,
                         "audio_file_id": audio_file.id,
                     })
 
@@ -53,6 +54,7 @@ def get_meeting_details_service(user_id: int, db: Session) -> list[MeetingOvervi
                 meeting_name= meeting.name,
                 meeting_type= meeting.type,
                 meeting_status= meeting.status,
+                description= meeting.description,
                 speakers= meeting.speakers,
                 audio_files=audio_files,
                 action_items=combined_action_items,

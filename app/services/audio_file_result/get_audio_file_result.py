@@ -81,13 +81,13 @@ def get_audio_result_service(audio_file_id: int, db: Session) -> MeetingAudioFil
                     id= audio_file_id,
                     status= MeetingAudioFileStatus.SUMMARIZED,
                     summary=summary.summary,
-                    action_items=[item.model_dump() for item in summary.action_items],
+                    action_items=summary.action_items,
                     retry_count= retry_count,
                 )
                 meeting_update = MeetingUpdate(
                     status= MeetingStatus.COMPLETED
                 )
-                logger.info(f"summary and action items generated for audio file with id: {audio_file_id}, summary: {summary}, action items: {[item.model_dump() for item in summary.action_items]}")
+                logger.info(f"summary and action items generated for audio file with id: {audio_file_id}, summary: {summary}, action items: {[summary.action_items]}")
                 updated_data = update_meeting_audio_file_repo(audio_file_id=audio_file_id, meeting_audio_file_update=meeting_audio_file_update, db=db)
                 print(f"updated audio file data in summarize block", updated_data)
                 update_meeting_repo(meeting_id=updated_data.meeting_id, meeting=meeting_update, db=db)

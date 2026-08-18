@@ -1,6 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict
-from typing import Optional, List, Dict, Any
+from typing import Optional, List
 from app.db.models.meeting_audio import MeetingAudioFileStatus
 
 class MeetingAudioFileBase(BaseModel):
@@ -28,7 +28,7 @@ class MeetingAudioFileResponse(MeetingAudioFileBase):
     status: str
     summary: Optional[str] = None
     transcription: Optional[str] = None
-    action_items: Optional[List[dict]] = None
+    action_items: Optional[List[str]] = None
     meeting: MeetingSummary
     created_at: datetime
     updated_at: datetime
@@ -38,5 +38,5 @@ class MeetingAudioFileUpdate(MeetingAudioFileBase):
     status: MeetingAudioFileStatus
     transcription: Optional[str] = None
     summary: Optional[str] = None
-    action_items: Optional[List[Dict[str, Any]]] = None
+    action_items: Optional[List[str]] = None
     retry_count: Optional[int] = None

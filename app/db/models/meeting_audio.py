@@ -32,7 +32,7 @@ class MeetingAudioFile(Base):
     original_filename: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     transcription: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    action_items: Mapped[list[dict[str, Any]] | None] = mapped_column(JSONB, nullable=True)
+    action_items: Mapped[list[str] | None] = mapped_column(JSONB, nullable=True)
     status: Mapped[str] = mapped_column(String, nullable=False, default=MeetingAudioFileStatus.UPLOADED)
     retry_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
