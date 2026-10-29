@@ -71,6 +71,14 @@ def get_current_user(
     return AuthService.get_current_user_service(request=request, db=db)
 
 @router.get(
+    "/models",
+    status_code=status.HTTP_200_OK,
+    )
+
+def get_list_of_avl_models():
+    return AuthService.get_available_models()
+
+@router.get(
     "/{user_id}",
     response_model=UserResponse,
     status_code=status.HTTP_200_OK,

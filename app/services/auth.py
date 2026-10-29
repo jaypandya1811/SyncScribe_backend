@@ -10,6 +10,7 @@ from app.core.config import settings
 from app.core.security import create_access_token, decode_access_token
 from app.exceptions.user import NotAuthenticatedError, InvalidTokenError
 from app.repositories.user import get_user_by_id_repo
+from app.utils.s3_client import bedrock_client
 
 class AuthService: 
 
@@ -105,3 +106,84 @@ class AuthService:
     )
         logger.info("user logged out")
         return {"message": "logged out successfully"}
+
+   
+    @staticmethod
+    def get_available_models():
+
+        response = bedrock_client.list_foundation_models()
+
+        models = response.get("modelSummaries", [])
+
+        available_models = []
+
+        for model in models:
+            if "TEXT" not in model.get("outputModalities", []):
+                continue
+
+            model_id = model.get("modelId")
+
+            try:
+                availability = bedrock_client.get_foundation_model_availability(
+                    modelId=model_id
+                )
+
+                # Extract the availability statuses
+                statuses = {
+                    "authorization": availability.get(
+                        "authorizationStatus", "UNKNOWN"
+                    ),
+                    "entitlement": availability.get(
+                        "entitlementAvailability", "UNKNOWN"
+                    ),
+                    "agreement": availability.get(
+                        "agreementAvailability", "UNKNOWN"
+                    ),
+                    "region": availability.get(
+                        "regionAvailability", "UNKNOWN"
+                    ),
+                }
+
+                # agreementAvailability may be a dictionary
+                # Example: {"status": "AVAILABLE"}
+                agreement = statuses["agreement"]
+
+                if isinstance(agreement, dict):
+                    statuses["agreement"] = agreement.get(
+                        "status", "UNKNOWN"
+                    )
+
+                # Check each required availability condition
+                is_available = (
+                    statuses["authorization"] == "AUTHORIZED"
+                    and statuses["entitlement"] == "AVAILABLE"
+                    and statuses["agreement"] == "AVAILABLE"
+                    and statuses["region"] == "AVAILABLE"
+                )
+
+                available_models.append({
+                    "model_id": model_id,
+                    "model_name": model.get("modelName"),
+                    "provider": model.get("providerName"),
+                    "input_modalities": model.get("inputModalities", []),
+                    "output_modalities": model.get("outputModalities", []),
+                    "inference_types": model.get(
+                        "inferenceTypesSupported", []
+                    ),
+                    "availability_status": statuses,
+                    "is_available": is_available,
+                })
+
+            except Exception as error:
+                available_models.append({
+                    "model_id": model_id,
+                    "model_name": model.get("modelName"),
+                    "provider": model.get("providerName"),
+                    "is_available": False,
+                    "availability_status": {
+                        "error": str(error)
+                    },
+                })
+
+        return available_models
+

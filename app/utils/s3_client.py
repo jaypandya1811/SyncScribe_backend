@@ -12,5 +12,10 @@ s3_client = boto3.client(
     region_name=os.getenv("AWS_REGION"),
 )
 
+bedrock_client = boto3.client(
+    "bedrock",
+    region_name=os.getenv("AWS_REGION")
+)
+
 
 BUCKET_NAME = os.getenv("AWS_BUCKET_NAME")
